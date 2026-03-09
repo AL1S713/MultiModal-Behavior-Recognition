@@ -2,7 +2,7 @@ import os
 import torch
 from torch.utils.data import Dataset
 from pathlib import Path
-from pytorchvideo.data import EncodedVideo
+from pytorchvideo.data.encoded_video import EncodedVideo
 from pytorchvideo.transforms import (
     ApplyTransformToKey,
     Normalize,
@@ -109,13 +109,13 @@ class NTUDataset(Dataset):
         try:
             # 加载 RGB 视频
             rgb_video = EncodedVideo.from_path(str(rgb_file))
-            rgb_data = rgb_video.get_clip(start_sec=0, end_sec=None)
+            rgb_data = rgb_video.get_clip(0, 5)
             rgb_data = self.transform_rgb(rgb_data)
             rgb_tensor = rgb_data["video"]  # shape: (3, T, H, W)
             
             # 加载 IR 视频
             ir_video = EncodedVideo.from_path(str(ir_file))
-            ir_data = ir_video.get_clip(start_sec=0, end_sec=None)
+            ir_data = ir_video.get_clip(0, 5)
             ir_data = self.transform_ir(ir_data)
             ir_tensor = ir_data["video"]  # shape: (1, T, H, W)
             
